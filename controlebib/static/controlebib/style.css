@@ -102,8 +102,7 @@ ul li a {
 
 #form-conteudo {
 	position: absolute;
-	width:100%; 
-	min-height:500px;
+	width: 550px;
     top: 60px;
     left: 10%;
     visibility: hidden;
@@ -115,10 +114,12 @@ ul li a {
 }
 
 #form-detalhe {
-	width: 90%;
-    min-height: 90%;
-    left: 50;
-    top: 50;
+  width: 90%;
+  min-height: 90%;
+  left: 50%;
+  top: 50%;
+  background-color: white;
+  margin-left: 5%
 }
 
 fieldset {

@@ -1,0 +1,22 @@
+<h1>Detalhes do Livro</h1>
+
+
+<p><strong>Título:</strong> {{ object.nome }}
+<p><strong>Autor:</strong> {{ object.autor }}
+<p><strong>Editora:</strong> {{ object.editora }}
+<p><strong>Status:</strong> {{ object.status }}</p>
+
+  <h1>This is a book update form</h1>
+
+      <div>
+        {{ object }}
+        <form id="edit-form"
+              action=""
+              method="post">
+          {% csrf_token %}
+          {{ form }}
+        <br/>
+        <br/>
+          <input type='submit' name='upload' value='Editar'/>
+        </form>
+      </div>

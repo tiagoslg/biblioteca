@@ -2,6 +2,8 @@
 
 {% load static %}
 
+{% load controlebib_extras %}
+
 {% block title %}Lista de livros Biblioteca{% endblock %}
 
 {% block branding %}<a href=""{% url 'controlebib:index' %}"">Lista de Livros da Biblioteca</a>{% endblock %}
@@ -39,15 +41,22 @@
 			</tfoot>
 			<tbody>
 					{% for livro in livros %}
+						<tr>
 						<td>{{livro.id}}</td>
 						<td>{{livro.nome}}</td>
 						<td>{{livro.autor}}</td>
 						<td>{{livro.editora}}</td>
-						<td>{{livro.status}}</td>
+						<td>{{livro.status|status}}</td>
 						{% if request.user.is_authenticated %}
 						{{ head|safe }}
-						<td>Emprestar</td>
+						<td>
+							{% if livro.status == "DIS" %}
+							<a href="{% url 'controlebib:criarEmprestimo' livro.id %}">Emprestar</a></td>
+							{% else %}
+							<a href="admin/controlebib/emprestimo/{{ livro.codEmprestimo }}/change/">Alterar Reserva</a></td>
+							{% endif %}
 						{% endif %}
+					</tr>
 					{% endfor %}
 			</tbody>
 		</table>
@@ -56,6 +65,11 @@
 	{% endif %}
 {% endblock %}
 {% block content_extra %}
+<div id="form-conteudo">
+	<div id="form-detalhe">
+	content
+	</div>
+</div>
 {% endblock %}
 {% block footer %}
 <script src="{% static 'controlebib/jquery-3.1.1.min.js' %}" type="text/javascript"></script>
@@ -107,6 +121,12 @@ $(document).ready(function(){
             }
         } );
     } );
+
+		$(document).on('click', '.botaoEditar', function(){
+	        var detalhe = $(this).data('editar');
+	        $('#form-detalhe').load(detalhe);
+					$('#form-conteudo').css("visibility", "visible");
+	    });
 
 	$('#example tfoot tr').appendTo('#example thead');
 

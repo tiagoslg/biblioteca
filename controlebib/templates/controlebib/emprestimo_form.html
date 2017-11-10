@@ -1,0 +1,44 @@
+{% extends "controlebib/base.html" %}
+
+{% load static %}
+
+{% block title %}Lista de livros Biblioteca{% endblock %}
+
+{% block branding %}<a href="{% url 'controlebib:index' %}">Cadastrar um novo empréstimo</a>{% endblock %}
+
+{% block content %}
+    <div>
+      {{ teste }}
+      <form id="create-form"
+            action=""
+            method="post">
+        {% csrf_token %}
+				{% for field in form %}
+            {{ field.label_tag }} {{ field }}<br />
+        {% endfor %}
+      <br/>
+      <br/>
+        <input type='hidden' name='livro' id='id_livro' value='{{ livro_id }}'/>
+        <input type='submit' name='upload' value='Salvar'/>
+        <input type="button" value="Cancelar" name="Cancelar" id="cancelar" onclick="window.location='{% url 'controlebib:index' %}'" />
+      </form>
+    </div>
+		<form method="post" action="">
+</form>
+{% endblock %}
+{% block footer %}
+<script type='text/javascript'>
+$(document).ready(function(){
+  $('#id_dataEmprestimo').prop('readonly', true);
+  $('#id_dataPrevDevolucao').prop('readonly', true);
+  $('#id_dataDevolucao').prop('readonly', true);
+	$('#id_livro').prop('disabled', true);
+  var now = new Date();
+  $('#id_dataEmprestimo').val(now.getDate()+'/'+now.getMonth()+'/'+now.getFullYear()).change()
+  now.setDate(now.getDate()+7);
+  $('#id_dataPrevDevolucao').val(now.getDate()+'/'+now.getMonth()+'/'+now.getFullYear()).change();
+	$('#id_livro').val({{ livro_id }}).change();
+
+});
+</script>
+{% endblock %}

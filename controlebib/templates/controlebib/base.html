@@ -7,6 +7,21 @@
 <link rel="stylesheet" type="text/css" href="{% static 'controlebib/bootstrap.min.css' %}" />
 <link rel="stylesheet" type="text/css" href="{% static 'controlebib/style.css' %}" />
 <link rel="stylesheet" type="text/css" href="{% static 'controlebib/jquery.dataTables.min.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'admin/css/forms.css' %} "/>
+<link rel="stylesheet" type="text/css" href="{% static 'admin/css/base.css' %} "/>
+
+
+<script type="text/javascript" src="/admin/jsi18n/"></script>
+<script type="text/javascript" src="{% static 'admin/js/core.js' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/jquery.init.js' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/admin/RelatedObjectLookups.js' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/actions.js' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/urlify.js' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/prepopulate.js' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/vendor/xregexp/xregexp.js' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/calendar.js' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/admin/DateTimeShortcuts.js' %}"></script>
 {% block css %}{% endblock %}
 <title>{% block title %}Título Temporário{% endblock %}</title>
 </head>
@@ -14,11 +29,11 @@
 <div id="container">
 	<div id="header">
 		<div id="branding">
-		<h1>{% block branding %}<a href="{% url 'core:index' %}">Leitura do Mundo</a>{% endblock %}</h1>
+		<h1>{% block branding %}<a href="{% url 'controlebib:index' %}">Leitura do Mundo</a>{% endblock %}</h1>
 		</div>
 		<div id="user-tools"
 		{% if request.user.is_authenticated %}
-		<p> você está logado como {{ request.user.username }} | <a href="{% url 'logout' %}">Sair </a></p>
+		<p> você está logado como {{ request.user.username }} | <a href="/admin">Área administrativa</a> | <a href="{% url 'logout' %}">Sair </a></p>
 		{% else %}
 		<p><a href="{% url 'login' %}">Acessar o sistema</a></p>
 		{% endif %}

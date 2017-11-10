@@ -1,0 +1,13 @@
+{% extends "controlebib/base.html" %}
+
+{% load static %}
+
+{% block title %}Lista de livros Biblioteca{% endblock %}
+
+{% block branding %}<a href="{% url 'controlebib:index' %}">Sistema de Biblioteca</a>{% endblock %}
+
+{% block content %}
+	<p><h1>Reserva Cadastrada com Sucesso</h1></p>
+	<p><a href="{% url 'controlebib:index' %}">Voltar para a lista de livros</a>
+
+{% endblock %}
