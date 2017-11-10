@@ -14,8 +14,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url
+from django.conf.urls import include
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
+    url(r'', include('controlebib.urls', namespace='controlebib')),
     url(r'^admin/', admin.site.urls),
+    url(r'^accounts/login/$', auth_views.login, {'template_name': 'registration/login.html'}, name='login'),
+	url(r'^accounts/logout/$', auth_views.logout, {'next_page': 'controlebib:index'}, name='logout'),
 ]

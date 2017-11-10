@@ -1,0 +1,115 @@
+{% extends "controlebib/base.html" %}
+
+{% load static %}
+
+{% block title %}Lista de livros Biblioteca{% endblock %}
+
+{% block branding %}<a href=""{% url 'controlebib:index' %}"">Lista de Livros da Biblioteca</a>{% endblock %}
+
+{% block content %}
+	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+	{% if livros %}
+		<table id="example" class="display" cellspacing="0" width="100%" border="1">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Nome</th>
+					<th>Autor</th>
+					<th>Ano</th>
+					<th>Status</th>
+					{% if request.user.is_authenticated %}
+					{{ head|safe }}
+					<th>Ação</th>
+					{% endif %}
+				</tr>
+			</thead>
+			<tfoot>
+				<tr>
+					<th>#</th>
+					<th>Nome</th>
+					<th>Autor</th>
+					<th>Editora</th>
+					<th>Status</th>
+					{% if request.user.is_authenticated %}
+					{{ head|safe }}
+					<th>Ação</th>
+					{% endif %}
+				</tr>
+			</tfoot>
+			<tbody>
+					{% for livro in livros %}
+						<td>{{livro.id}}</td>
+						<td>{{livro.nome}}</td>
+						<td>{{livro.autor}}</td>
+						<td>{{livro.editora}}</td>
+						<td>{{livro.status}}</td>
+						{% if request.user.is_authenticated %}
+						{{ head|safe }}
+						<td>Emprestar</td>
+						{% endif %}
+					{% endfor %}
+			</tbody>
+		</table>
+	{% else %}
+		<p>Nenhum Livro equivale ao filtro selecionado.</p>
+	{% endif %}
+{% endblock %}
+{% block content_extra %}
+{% endblock %}
+{% block footer %}
+<script src="{% static 'controlebib/jquery-3.1.1.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'controlebib/jquery.dataTables.min.js' %}" type="text/javascript"></script>
+<script type='text/javascript'>
+$(document).ready(function(){
+// Define as variaveis de acordo com a quantidade da página // opcional.
+	// Setup - add a text input to each footer cell
+    $('#example tfoot th').each( function () {
+        var title = $(this).text();
+		if (title != 'Ação' && title != '#') {
+			$(this).html( '<input type="text" placeholder="Pesquisar..." />' );
+		}else{
+			$(this).html( ' ' );
+		}
+    } );
+
+	//$('#example').DataTable();
+	// DataTable
+    var table = $('#example').DataTable({
+		"language": {
+            "lengthMenu": "Mostrando _MENU_ registros por página",
+            "zeroRecords": "Nenhum registro encontrado",
+            "info": "Página _PAGE_ de _PAGES_",
+            "infoEmpty": "Nenhum registro disponível",
+            "infoFiltered": "(filtrado de _MAX_ registros totais)",
+			"paginate": {
+				"first":      "Primeira",
+				"last":       "Última",
+				"next":       "Próxima",
+				"previous":   "Anterior"
+			},
+			"search":         "Pesquisar:"
+        },
+		"pagingType": "full_numbers",
+		"pageLength": 30,
+		"lengthMenu": [ [30, 100, 150, -1], [30, 100, 150, "Todos"] ]
+	});
+
+	// Apply the search
+    table.columns().every( function () {
+        var that = this;
+
+        $( 'input', this.footer() ).on( 'keyup change', function () {
+            if ( that.search() !== this.value ) {
+                that
+                    .search( this.value )
+                    .draw();
+            }
+        } );
+    } );
+
+	$('#example tfoot tr').appendTo('#example thead');
+
+});
+</script>
+{% endblock %}
